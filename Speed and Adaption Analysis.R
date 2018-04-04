@@ -42,10 +42,16 @@ average <- c(mean(speed_4$'New Adaption'),
              mean(speed_12$'New Adaption'),
              mean(speed_13$'New Adaption'))
 
-# plot(data$Speed, data$'New Adaption')
-# nls_fit <- nls(data$'New Adaption' ~ a + b * data$Speed^(-c), data, start = list(a = 0.005, b = 20, 
-#                                                       c = 0.2))
-# lines(data$Speed, predict(nls_fit), col = "red")
+nums <- c(4:13)
 
-plot(c(4:13), average)
+nls_fit <- nls(average ~ a * nums + b * nums^(2) + c * nums^(3) + d * nums^(4) + e * nums^(5), 
+               start = list(a = 0, b = 0, c = 0, d = 0, e = 0))
+nls_fit
+  
+plot(c(4:13), average, pch = 16, main = "January 2018 Average Adaption",
+     xlab = "Speed (fpm*100)", ylab = "Adaption (in)")
+lines(nums, predict(nls_fit), col = "blue")
 abline(h = 0, col = "red")
+
+#plot(data$Speed, data$`New Adaption`, pch = 16, main = "January 2018 Average Adaption",  xlab = "Speed (fpm)", ylab = "Adaption (in)")
+#points(data$Speed, predict(nls_fit), col = "blue", pch = 16)
