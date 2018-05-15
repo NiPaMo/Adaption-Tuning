@@ -1,0 +1,87 @@
+> #Variables to adjust for each slab 
+> speed      <- 602
+
+> adaptStart <- 0.8
+
+> adaptEnd   <- 3.6
+
+> newStart   <- 3.5
+
+> newEnd     <- 6.5
+
+> rate       <- 0.8
+
+> adaptorOld <- -0.0054
+
+> dispMin    <- 0.230
+
+> dispMax    <- 0.250
+
+> data       <- B25667
+
+> ####################
+> 
+> data[,6] <- 0
+
+> data[,7] <- 0
+
+> colnames(data) <- names
+
+> deltaTime <- (data[["Footage"]]/speed)*60
+
+> measGauge <- data[["Meas Gauge"]]
+
+> data["Delta Time"] <- deltaTime
+
+> data["Gauge Dev"]  <- data["Meas Gauge"] - data["Aim Gauge"]
+
+> plot(deltaTime, measGauge, type = "l", ylim = c(dispMin, dispMax), xlim = c(0, 15), main = "B25667 Gauge", 
++      ylab = "Gauge (in)", xlab = "Time ..." ... [TRUNCATED] 
+
+> lines(deltaTime, data[["Aim Gauge"]], col = "green")
+
+> lines(deltaTime, data[["Min Gauge"]], col = "red")
+
+> lines(deltaTime, data[["Max Gauge"]], col = "red")
+
+> abline(v = adaptStart, col = "blue")
+
+> abline(v = adaptEnd, col = "blue")
+
+> abline(v = newStart, col = "orange")
+
+> abline(v = newEnd, col = "orange")
+
+> adaptGauge <- data[data[,6] > adaptStart, 6:7]
+
+> adaptGauge <- adaptGauge[adaptGauge[,1] < adaptEnd, 1:2]
+
+> meanOld <- mean(adaptGauge[["Gauge Dev"]])
+
+> adaptGaugeNew <- data[data[,6] > newStart, 6:7]
+
+> adaptGaugeNew <- adaptGaugeNew[adaptGaugeNew[,1] < newEnd, 1:2]
+
+> meanNew <- mean(adaptGaugeNew[["Gauge Dev"]])
+
+> old_adaptorNew <- adaptorOld + rate * meanOld
+
+> new_adaptorNew <- adaptorOld + rate * meanNew
+
+> meanOld
+[1] 0.0009583371
+
+> meanNew
+[1] -0.001438458
+
+> adaptorOld
+[1] -0.0054
+
+> old_adaptorNew
+[1] -0.00463333
+
+> new_adaptorNew
+[1] -0.006550767
+
+> old_adaptorNew - new_adaptorNew
+[1] 0.001917436

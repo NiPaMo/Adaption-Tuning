@@ -2,23 +2,23 @@ names <- c("Footage", "Meas Gauge", "Aim Gauge", "Max Gauge", "Min Gauge", "Delt
 
 #Data Import
 library(readxl)
-B32538 <- read_excel("C:/Users/E20269/Documents/RStudio/Adaption Tuning/Input/B32538.xls", 
+B35254 <- read_excel("C:/Users/E20269/Documents/RStudio/Adaption Tuning/Input/B35254.xls", 
                      sheet = "Gauge Data", col_names = FALSE, 
                      col_types = c("blank", "numeric", "numeric", 
                                    "numeric", "numeric", "numeric", 
                                    "blank", "blank", "blank"))
 
 #Variables to adjust for each slab 
-speed      <- 439
+speed      <- 956
 adaptStart <- 0.8
 adaptEnd   <- 3.6
 newStart   <- 3.5
 newEnd     <- 6.5
 rate       <- 0.6
-adaptorOld <- -0.0042
-dispMin    <- 0.380
-dispMax    <- 0.410
-data       <- B32538
+adaptorOld <- -0.0168
+dispMin    <- 0.130
+dispMax    <- 0.150
+data       <- B35254
 ####################
 
 data[,6] <- 0
@@ -32,7 +32,7 @@ measGauge <- data[["Meas Gauge"]]
 data["Delta Time"] <- deltaTime
 data["Gauge Dev"]  <- data["Meas Gauge"] - data["Aim Gauge"]
 
-plot(deltaTime, measGauge, type = "l", ylim = c(dispMin, dispMax), xlim = c(0, 15), main = "B32538 Gauge", 
+plot(deltaTime, measGauge, type = "l", ylim = c(dispMin, dispMax), xlim = c(0, 15), main = "B35254 Gauge", 
      ylab = "Gauge (in)", xlab = "Time (s)")
 lines(deltaTime, data[["Aim Gauge"]], col = "green")
 lines(deltaTime, data[["Min Gauge"]], col = "red")
